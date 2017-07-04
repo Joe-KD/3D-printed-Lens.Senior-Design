@@ -1,0 +1,57 @@
+%% Prism Dimensions
+% uses traditional Risley prism dimensions to find fractional volume for a
+% variable desity prism
+
+%% Constants 
+f = 10e9; %5.5025e9;
+c = 299792458;
+ep = 10; %3D printer dielectric
+lambda0 = c/f;
+lambda = c/(f*sqrt(ep));
+k = 2*pi/lambda;
+in2m = 0.0254; 
+deg2rad = pi/180;
+
+%% Antenna Aperture Dimensions
+% MITRE Horn Dimensions
+    w = 9.5*in2m; 
+    h = 5.75*in2m;
+
+%% Wedge Parameters
+
+
+
+%R = 1; %radius of Risley Prism m 
+theta_P1 = 30*deg2rad; %specified steering angle from surface normal
+PHI = asin(theta_P1/sqrt(ep)); %specified wedge angle
+%R = N*PatchWidth + (N-1)*E_spacing; %set by size of antenna aperture in meters include +lambda/2 if performance suck
+%wedge_height = R*tan(PHI);
+max_unit_wedge_height = lambda/sqrt(ep) ; %max height of first wedge density 1. 
+unit_wedge_length = max_unit_wedge_height/tan(PHI);
+num_of_unit_wedges = w/unit_wedge_length; %eventually change to IF statement for whole unit cells
+
+
+
+%% 504 wedge heights 
+% use these values from patent for comparison with varaible dielectric
+% performance. 504 is referenced in patent
+n = 0:1:4; %# of wedge steps initialized at zero so phase shift between elements maintain
+d = lambda/2; %center to center distance between stepp elements reduce for better SLL performance
+alpha = n.*360*d/lambda*sin(theta_P1); %relative phase shift between portions of 504 (stepps of wedge)
+L_n = lambda*(alpha/360); %height of progressive steps
+
+%% Determing dielectric values for uniform stepps
+%these dielectric values will inform our fill fractions, and can be used
+%for simple HFSS comparisons
+
+er_1 = (lambda0/L_n(1,5)*(4/4))^2; %corresponds to tallest wedge and a 2pi phase shift
+er_2 = (lambda0/L_n(1,5)*(3/4))^2;
+er_3 = (lambda0/L_n(1,5)*(2/4))^2; 
+er_4 = (lambda0/L_n(1,5)*(1/4))^2; %corresponds to shortest wedge
+
+
+
+
+
+
+
