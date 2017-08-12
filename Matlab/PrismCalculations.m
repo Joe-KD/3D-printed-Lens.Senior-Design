@@ -41,17 +41,19 @@ theta = 30*deg2rad; %specified steering angle from surface normal
 
 
 %% Dielectric values
-er_min = 2; %will eventually be specified by 3D printers
+er_min = 1.25; %will eventually be specified by 3D printers
 er_max = ep;
 sqrt_er_dx = sqrt(er_max)-sqrt(er_min);
 h_2 = lambda0/sqrt_er_dx;
 gg = lambda0/h_2;
 D = lambda0/cos(theta); %cell size based on modulo 2pi spacing
+
 N = 3;
+Dx = D/(N+1);
 n = 0:1:N;
 d_x = D.*(n/N);
 %m = 0:1:2;
-m = 1;
+m = 2;
 
 % et = 1:9/(N-1):10; %permittivity for optimization
 %h_px = ((n.*cos(theta)+(lambda0.*m))./sqrt(et)); %height vector for optimization 
@@ -59,15 +61,23 @@ m = 1;
 
 h_min = ((sqrt_er_dx)./(m.*lambda0)).^-1;
 h_max = ((sqrt_er_dx)./((1+m).*lambda0)).^-1;
+
 %h_prism_min = lambda0/sqrt(er_min); %height of prism we can call it whatever we want
 %h_prism_max = ((n(N)*cos(theta)+(lambda0*(N-1)))/sqrt(10));
 %h_px = h_prism_min:(h_prism_max-h_prism_min)/(N-1):h_prism_max;
-h_m = (h_max - h_min)/(2);
+h_m = (h_max - h_min)/(h_max+h_min);
 h_g = sqrt(h_max*h_min); %geometric meam
 
-%sqrt_er_x = (d_x.*cos(theta)+(lambda0))/(h_min);
-sqrt_er_x2 = ((n./N)+m).*(lambda0./h_max);
+sqrt_er_x = (d_x.*cos(theta)+(m.*lambda0))./(h_min);
+sqrt_er_x2 = ((n./N)+m).*(lambda0./h_min);
 er_x = (sqrt_er_x2).^2;
+
+% indexs values outside of our allowable range
+for ii = 1:length(sqrt_er_x2)
+if any(sqrt_er_x2(1,ii)> sqrt(er_max));
+    index(ii) = sqrt_er_x2(ii) - sqrt(er_max);
+end
+end
 
 %  plot(h_px,et)
 %  hold on
@@ -75,8 +85,10 @@ er_x = (sqrt_er_x2).^2;
 %  legend('et','er_x')
 
 %what percent is each er_x of max fill
-er_p = (er_x./er_x(N));
+er_p = (er_x./er_x(N+1));
 
+kk = 1:1:150
+hh = mod(150,kk)
 
 
 
