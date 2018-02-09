@@ -24,7 +24,7 @@ eta_m2 = sqrt(eta_air*eta_r2);
 eta_m3 = sqrt(eta_air*eta_r3);
 eta_m4 = sqrt(eta_air*eta_r4);
 
-%% Recover Dielectric Values for Matching Layer (no height dependence)
+%% Recover Dielectric Values for Matching Layer
 
 eps_m1 = 1/(eta_m1^2);
 eps_m2 = 1/(eta_m2^2);
@@ -35,11 +35,5 @@ eps_m4 = 1/(eta_m4^2);
 % Matching sections must have the same height so that the phase front
 % remains constant layer 4 is the thinnest layer with the highest eps_r so
 % we will work off that for printing ease
-% eps_4/eps_n = a_4n ratio of dielectric intensity 
 a_43 = eps_m4/eps_m3;
-a_42 = eps_m4/eps_m2;
-a_41 = eps_m4/eps_m1;
 
-h_eps_m3 = 1/sqrt(eta_air*1/(eps_r3*a_43));
-h_eps_m2 = 1/sqrt(1/(eps_r2*a_42));
-h_eps_m1 = 1/sqrt(1/(eps_r1*a_41));
