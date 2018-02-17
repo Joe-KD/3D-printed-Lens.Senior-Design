@@ -1,0 +1,48 @@
+clear all
+close all
+%% Eqs
+% k0*(n/N)*sin(theta)+(n*2*pi)/N = k0*sqrt(eps_r(n))*h_p
+
+%%  CONSTANTS
+eps_0 = 8.85*10^(-12); %permittivity
+eps_air = 1.0006;
+mu_0 = 1; %permeability
+c = 299792458;
+f = 10e9;
+lam0 = c/f;
+k0 = (2*pi)/lam0;
+N = 4;
+er = linspace(1,10,100);
+er = er';
+m = 1:4;
+n = 1:4;
+
+%delt = 
+%h_p = h + 2*delt;
+
+%% setting up vectors
+% eps_r = linspace(1,10, 100);
+% %eps_r = zeros(1,4);
+% n_mat = repmat(n, size(eps_r));
+% eps_mat = repmat(eps_r, size(n));
+% %m_mat = repmat(m, size(eps_r));
+% y = lam0./(4*eps_mat.^(1/4));
+%f(eps_mat,y) = ((((n_mat.*m*2*pi)/N)-pi)./(k0*(h-2*y))).^2 == eps_mat;
+
+% ern = sym('ern', [n 1]);
+% %for ii = 1:length(n) 
+% for ii = 1:4
+%     eqn(ii) = k0*sqrt(ern)*h-k0*(lam0/2)*ern^(1/4)-(ii*m*2*pi)/N + pi == 0;
+%     
+% end
+% eps_r = solve(eqn);
+
+%end
+er_mat = repmat( er, size(n));
+% n_mat = repmat(er, n);
+% m_mat = repmat(er, m);
+
+%plot(eps_r,y);
+h_1 = (lam0/2)*er_mat.^(1/4);
+h_2 = 
+h = ((lam0/2)*er_mat.^(1/4)+(2*pi.*n.*m)/N + pi)./(k0*sqrt(er_mat));
