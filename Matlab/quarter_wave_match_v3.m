@@ -30,16 +30,12 @@ n = 1:4;
 er_mat = repmat( er, size(n));
 n_mat = repmat(n, 1000, 1);
 
+% Set up height struct
 h.m = struct('v',{});
-% Q for KC: Can the pi for the matching layer be pos or neg? if only pos,
-% then there is no suitable solution w/in out er values
 for m = 0:m_max
     h.m{m+1} = ((2*pi*m+((2*pi-(2*pi)/N).*n_mat)./N-pi)./(k0*sqrt(er_mat)))+2*(lam0./(4*(er_mat).^(1/4)));
 end
 
-% for m = 0:m_max
-%     h.m{m+1} = (k0*(lam0/2)*er_mat.^(1/4)+k0*(lam0*n_mat)/4+(2*pi.*n_mat*m)/N + pi)./(k0*sqrt(er_mat));
-% end
 %% Plots visualizing h vs er_n at various multiples of m
 
 figure
@@ -47,20 +43,18 @@ plot(h.m{3}, er_mat)
 legend('n = 1','n = 2','n = 3','n = 4')
 xlabel('Total height h = h'' + 2\delta')
 ylabel('\bf\epsilon_r')
-%% Find ern from given height
-% I'm sure there is a way to get an optimal solution for this
-% but this is how to get er_n by visually inspecting graph
-% and selecting a reasonable structure height
 
-%EXAMPLE: THIS GETS er_n FOR 4cm, at m = 0
-h_t = .031;
+%% Find ern from given height
+% Height is obsevered as valid from plot
+
+h_t = .031; %Total structure height
 tmp = abs(h.m{3}-h_t);
 [~,index] = min(tmp);
 er_n = er_mat(index);
 er_m = sqrt(er_n);
 
-%% Calculate structure height
-% h = total height
+%% Calculate lens layer height
+% h_t = total height
 % delt = height of the matching layers (2)
 % h_p = height of the lens sans matching layer
 delt = zeros(1,4);
@@ -69,9 +63,3 @@ for ii = n
 end
 h_p = h_t*ones(1,4) - 2.*(delt);
 
-
-%% Other way
-% 
-% for ii = n
-%     er_a(ii) = (((ii*pi)/(4*lam0)-(2*pi*4*ii)/4+pi)./(k0.*.039)).^2;
-% end
