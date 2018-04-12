@@ -6,7 +6,7 @@
 clear all 
 close all
 %% Constants 
-f = 10e9; %5.5025e9;
+f = 5.85e9; %5.5025e9;
 c = 299792458;
 u0 = 4*pi*10^-7;
 e0 = 8.85418782*10^-12;
@@ -29,7 +29,7 @@ deg2rad = pi/180;
 
 % L_prism = w_ant; %length of structure
 % 
-theta = 30*deg2rad; %specified steering angle from surface normal
+theta = 60*deg2rad; %specified steering angle from surface normal
 % PHI = asin(theta_P1/sqrt(ep)); %specified wedge angle
 % %R = N*PatchWidth + (N-1)*E_spacing; %set by size of antenna aperture in meters include +lambda/2 if performance suck
 % %wedge_height = R*tan(PHI);
